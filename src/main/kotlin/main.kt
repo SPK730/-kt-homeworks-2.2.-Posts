@@ -21,12 +21,16 @@ data class Post(
 object WallService {
     private var posts = emptyArray<Post>()
     private var lastId = 0
+    fun clear() {
+        posts = emptyArray()
+        lastId = 0   // также здесь нужно сбросить счетчик для id постов, если он у вас используется
+    }
 
     fun add(post: Post): Post {
-        post.id = ++lastId
         posts += post.copy(id = ++lastId, likes = post.likes.copy())
         return posts.last()
     }
+
 
     fun update(newPost: Post): Boolean {
         for ((index, post) in posts.withIndex()) {
@@ -54,3 +58,5 @@ fun main() {
     WallService.update(Post(1, Likes(0)))
     WallService.update(Post(2, Likes(10)))
 }
+
+
